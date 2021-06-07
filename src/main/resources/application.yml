@@ -8,6 +8,7 @@ spring:
     host: 39.104.21.126
     port: 6379
     timeout: 3000 # 超时时间3000毫秒
+    password: heihei
     lettuce:
       pool:
         max-active: 200 # 200个连接
