@@ -1,4 +1,4 @@
-package com.conor.web.service;
+package com.conor.service.redis;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class RedisFactory {
     /**
      * <p> 获取数据库 </p>
      * @param database 数据编号 0(默认)、1、2、3
-     * @return com.conor.web.service.AbsRedisClientService
+     * @return com.conor.service.AbsRedisClientService
      * @author conor 2021-06-08 16:21
      */
     public AbsRedisClientService getRedisByDatabase(int database) {
@@ -30,7 +30,7 @@ public class RedisFactory {
 
     /**
      * <p> 连接默认数据 </p>
-     * @return com.conor.web.service.AbsRedisClientService
+     * @return com.conor.service.AbsRedisClientService
      * @author conor 2021-06-08 16:20
      */
     public AbsRedisClientService getDefaultRedis() {
@@ -39,7 +39,7 @@ public class RedisFactory {
 
     /**
      * <p> 连接数据 1  </p>
-     * @return com.conor.web.service.AbsRedisClientService
+     * @return com.conor.service.AbsRedisClientService
      * @author conor 2021-06-08 16:20
      */
     public AbsRedisClientService getRedis1() {
@@ -48,7 +48,7 @@ public class RedisFactory {
 
     /**
      * <p> 连接数据 2 </p>
-     * @return com.conor.web.service.AbsRedisClientService
+     * @return com.conor.service.AbsRedisClientService
      * @author conor 2021-06-08 16:20
      */
     public AbsRedisClientService getRedis2() {
@@ -57,7 +57,7 @@ public class RedisFactory {
 
     /**
      * <p> 连接数据 3  </p>
-     * @return com.conor.web.service.AbsRedisClientService
+     * @return com.conor.service.AbsRedisClientService
      * @author conor 2021-06-08 16:20
      */
     public AbsRedisClientService getRedis3() {

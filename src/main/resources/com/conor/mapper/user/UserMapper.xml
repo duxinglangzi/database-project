@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.conor.service.user.mapper.UserMapper">
+    <resultMap id="UserEntityMap" type="com.conor.service.user.entity.UserEntity">
+        <result column="id" property="id"/>
+        <result column="unique_id" property="uniqueId"/>
+        <result column="name" property="name"/>
+        <result column="language" property="language"/>
+        <result column="register_date" property="registerDate"/>
+
+    </resultMap>
+
+    <sql id="all_columns">
+		id,unique_id,name,language
+	</sql>
+    <sql id="updateSet">
+        <if test="uniqueId != null ">,unique_id=#{uniqueId}</if>
+        <if test="name != null ">,name=#{name}</if>
+        <if test="language != null ">,language=#{language}</if>
+        <if test="registerDate != null ">,register_date=#{registerDate}</if>
+    </sql>
+    <sql id="where">
+        <where>
+            <if test="id != null ">and id=#{id}</if>
+            <if test="uniqueId != null ">and unique_id=#{uniqueId}</if>
+            <if test="language != null ">and language=#{language}</if>
+            <if test="uniqueIds != null and uniqueIds.size()>0">and unique_id in
+                <foreach collection="uniqueIds" item="o" open="(" close=")" separator=",">
+                    #{o}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+    <sql id="table_name">
+		user_info
+	</sql>
+
+    <select id="getUsers" resultMap="UserEntityMap">
+        select <include refid="all_columns"/> from <include refid="table_name"/> <include refid="where"/>
+    </select>
+
+
+
+
+</mapper>

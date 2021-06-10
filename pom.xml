@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.conor</groupId>
-    <artifactId>redis-project</artifactId>
+    <artifactId>database-project</artifactId>
     <version>${project.version}</version>
-    <name>redis-study-java</name>
+    <name>database-project</name>
     <description>Demo project for Spring Boot 2.5 , 测试项目</description>
 
     <parent>
@@ -27,10 +27,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!-- kafka 配置 -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.kafka</groupId>-->
 <!--            <artifactId>spring-kafka</artifactId>-->
-<!--            <version>2.7.0-SNAPSHOT</version>-->
 <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,6 +54,35 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.60</version>
+        </dependency>
+
+        <!-- 数据连接池 druid 、 以及 starter， 该 starter 自动会包含 druid 版本为 1.2.6 -->
+        <!-- 注解的解释文档  https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter  -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+
+        <!-- 如果 不加入这依赖  配置监控统计拦截的filters时   否则会报错 filters: stat,wall,log4j    -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <!-- mysql 驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+
+        <!-- mybatis 以及对应版本的 starter ， 该starter 自动包含 mybatis 3.5.7 版本 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.0</version>
         </dependency>
 
     </dependencies>

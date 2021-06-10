@@ -2,10 +2,15 @@
 server:
   port: 8080
 
+mybatis:
+  mapper-locations: classpath:com/conor/mapper/**/*.xml
+
 
 spring:
+  main:
+    sources: applicationContext.xml
   redis:
-    host: 39.104.21.126
+    host: localhost
     port: 6379
     timeout: 3000 # 超时时间3000毫秒
     password: heihei
@@ -20,4 +25,40 @@ spring:
       db1: 1
       db2: 2
       db3: 3
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: heihei
+    url: jdbc:mysql://localhost:3306/spring_druid?useUnicode=true&useSSL=false
+    druid: #以下为 druid 的配置
+      min-idle: 2                               #最小连接池数量
+      initial-size: 5                           #初始化时建立物理连接的个数
+      max-active: 20                            #最大连接池数量 maxIdle已经不再使用
+      max-wait: 60000                           #获取连接时最大等待时间，单位毫秒
+      test-while-idle: true                     #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      time-between-eviction-runs-millis: 60000  #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      min-evictable-idle-time-millis: 30000     #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      validation-query: select 'x'              #用来检测连接是否有效的sql 必须是一个查询语句
+      test-on-borrow: false                     #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false                     #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      pool-prepared-statements: true            #是否缓存preparedStatement,mysql5.5+建议开启
+      max-pool-prepared-statement-per-connection-size: 20 #当值大于0时poolPreparedStatements会自动修改为true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall,log4j                  #配置扩展插件
+      druid.stat.slowSqlMillis: 500             #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      stat-view-servlet:                        #设置打开访问druid监控页的账号和密码
+        enabled: true
+        login-username: admin
+        login-password: adminpassword
+        reset-enable: false                     #禁用HTML页面上的“Reset All”功能
+
+
+
+
+
+
+
+
+
 

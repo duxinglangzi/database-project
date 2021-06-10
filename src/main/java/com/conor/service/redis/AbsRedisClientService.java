@@ -1,4 +1,4 @@
-package com.conor.web.service;
+package com.conor.service.redis;
 
 import java.util.List;
 import java.util.Map;

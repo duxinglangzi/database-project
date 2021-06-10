@@ -1,12 +1,10 @@
-package com.conor.web.controller;
+package com.conor.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.conor.web.service.RedisFactory;
+import com.conor.service.redis.RedisFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -48,4 +46,21 @@ public class AppController {
         redisFactory.getRedis3().set(LocalDateTime.now().toString(), LocalDateTime.now().toString());
         return "{\"status\":\"ok\"}";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/customData", method = RequestMethod.POST)
+    public String customData(@RequestBody JSONObject jsonObject) {
+        redisFactory.getRedis3().set("custom:json", jsonObject);
+        return "{\"status\":\"ok\"}";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/customString", method = RequestMethod.POST)
+    public String customString(@RequestBody JSONObject json) {
+        redisFactory.getRedis3().set("custom:string:assemble", json);
+        LocalDateTime dateTime = LocalDateTime.now();
+        return "{\"status\":\"ok\"}";
+    }
+
+
 }

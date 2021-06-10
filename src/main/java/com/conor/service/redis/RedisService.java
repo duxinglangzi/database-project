@@ -1,4 +1,4 @@
-package com.conor.web.service;
+package com.conor.service.redis;
 
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

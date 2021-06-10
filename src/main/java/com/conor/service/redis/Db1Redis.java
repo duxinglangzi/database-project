@@ -1,4 +1,4 @@
-package com.conor.web.service;
+package com.conor.service.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,19 @@ import java.util.concurrent.TimeUnit;
  * <p>@Author conor  2021/6/4 </p>
  */
 @Service
-public class DefaultRedis extends AbsRedisClientService {
-
-    @Resource(name = "defaultRedisDB")
-    private RedisTemplate<String, Object> redisTemplate;
+public class Db1Redis extends AbsRedisClientService {
+    @Resource(name = "redisDB1")
+    private RedisTemplate<String, Object> redisTemplate1;
 
     @Override
     protected int getDatabase() {
-        return 0;
+        return 1;
     }
 
     @Override
     public boolean expire(String key, long time) {
         if (time > 0) {
-            redisTemplate.expire(key, time, TimeUnit.SECONDS);
+            redisTemplate1.expire(key, time, TimeUnit.SECONDS);
             return true;
         } else {
             throw new RuntimeException("超时时间小于0");
@@ -37,21 +36,21 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public long getExpire(String key) {
-        return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+        return redisTemplate1.getExpire(key, TimeUnit.SECONDS);
     }
 
     @Override
     public boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
+        return redisTemplate1.hasKey(key);
     }
 
     @Override
     public void del(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
-                redisTemplate.delete(key[0]);
+                redisTemplate1.delete(key[0]);
             } else {
-                redisTemplate.delete(Arrays.asList(key));
+                redisTemplate1.delete(Arrays.asList(key));
             }
         }
     }
@@ -59,19 +58,19 @@ public class DefaultRedis extends AbsRedisClientService {
     // ============================String=============================
     @Override
     public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+        return key == null ? null : redisTemplate1.opsForValue().get(key);
     }
 
     @Override
     public boolean set(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
+        redisTemplate1.opsForValue().set(key, value);
         return true;
     }
 
     @Override
     public boolean set(String key, Object value, long time) {
         if (time > 0) {
-            redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            redisTemplate1.opsForValue().set(key, value, time, TimeUnit.SECONDS);
         } else {
             this.set(key, value);
         }
@@ -83,7 +82,7 @@ public class DefaultRedis extends AbsRedisClientService {
         if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
-        return redisTemplate.opsForValue().increment(key, delta);
+        return redisTemplate1.opsForValue().increment(key, delta);
     }
 
     @Override
@@ -91,29 +90,29 @@ public class DefaultRedis extends AbsRedisClientService {
         if (delta < 0) {
             throw new RuntimeException("递减因子必须大于0");
         }
-        return redisTemplate.opsForValue().increment(key, -delta);
+        return redisTemplate1.opsForValue().increment(key, -delta);
     }
     // ================================Map=================================
 
     @Override
     public Object hget(String key, String item) {
-        return redisTemplate.opsForHash().get(key, item);
+        return redisTemplate1.opsForHash().get(key, item);
     }
 
     @Override
     public Map<Object, Object> hmget(String key) {
-        return redisTemplate.opsForHash().entries(key);
+        return redisTemplate1.opsForHash().entries(key);
     }
 
     @Override
     public boolean hmset(String key, Map<String, Object> map) {
-        redisTemplate.opsForHash().putAll(key, map);
+        redisTemplate1.opsForHash().putAll(key, map);
         return true;
     }
 
     @Override
     public boolean hmset(String key, Map<String, Object> map, long time) {
-        redisTemplate.opsForHash().putAll(key, map);
+        redisTemplate1.opsForHash().putAll(key, map);
         if (time > 0) {
             expire(key, time);
         }
@@ -122,13 +121,13 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public boolean hset(String key, String item, Object value) {
-        redisTemplate.opsForHash().put(key, item, value);
+        redisTemplate1.opsForHash().put(key, item, value);
         return true;
     }
 
     @Override
     public boolean hset(String key, String item, Object value, long time) {
-        redisTemplate.opsForHash().put(key, item, value);
+        redisTemplate1.opsForHash().put(key, item, value);
         if (time > 0) {
             expire(key, time);
         }
@@ -137,43 +136,43 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public void hdel(String key, Object... item) {
-        redisTemplate.opsForHash().delete(key, item);
+        redisTemplate1.opsForHash().delete(key, item);
     }
 
     @Override
     public boolean hHasKey(String key, String item) {
-        return redisTemplate.opsForHash().hasKey(key, item);
+        return redisTemplate1.opsForHash().hasKey(key, item);
     }
 
     @Override
     public double hincr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item, by);
+        return redisTemplate1.opsForHash().increment(key, item, by);
     }
 
     @Override
     public double hdecr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item, -by);
+        return redisTemplate1.opsForHash().increment(key, item, -by);
     }
     // ============================set=============================
 
     @Override
     public Set<Object> sGet(String key) {
-        return redisTemplate.opsForSet().members(key);
+        return redisTemplate1.opsForSet().members(key);
     }
 
     @Override
     public boolean sHasKey(String key, Object value) {
-        return redisTemplate.opsForSet().isMember(key, value);
+        return redisTemplate1.opsForSet().isMember(key, value);
     }
 
     @Override
     public long sSet(String key, Object... values) {
-        return redisTemplate.opsForSet().add(key, values);
+        return redisTemplate1.opsForSet().add(key, values);
     }
 
     @Override
     public long sSetAndTime(String key, long time, Object... values) {
-        final Long count = redisTemplate.opsForSet().add(key, values);
+        final Long count = redisTemplate1.opsForSet().add(key, values);
         if (time > 0)
             expire(key, time);
         return count;
@@ -181,40 +180,40 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public long sGetSetSize(String key) {
-        return redisTemplate.opsForSet().size(key);
+        return redisTemplate1.opsForSet().size(key);
     }
 
     @Override
     public long setRemove(String key, Object... values) {
-        final Long count = redisTemplate.opsForSet().remove(key, values);
+        final Long count = redisTemplate1.opsForSet().remove(key, values);
         return count;
     }
     // ===============================list=================================
 
     @Override
     public List<Object> lGet(String key, long start, long end) {
-        return redisTemplate.opsForList().range(key, start, end);
+        return redisTemplate1.opsForList().range(key, start, end);
     }
 
     @Override
     public long lGetListSize(String key) {
-        return redisTemplate.opsForList().size(key);
+        return redisTemplate1.opsForList().size(key);
     }
 
     @Override
     public Object lGetIndex(String key, long index) {
-        return redisTemplate.opsForList().index(key, index);
+        return redisTemplate1.opsForList().index(key, index);
     }
 
     @Override
     public boolean lSet(String key, Object value) {
-        redisTemplate.opsForList().rightPush(key, value);
+        redisTemplate1.opsForList().rightPush(key, value);
         return true;
     }
 
     @Override
     public boolean lSet(String key, Object value, long time) {
-        redisTemplate.opsForList().rightPush(key, value);
+        redisTemplate1.opsForList().rightPush(key, value);
         if (time > 0) {
             expire(key, time);
         }
@@ -223,13 +222,13 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public boolean lSet(String key, List<Object> value) {
-        redisTemplate.opsForList().rightPushAll(key, value);
+        redisTemplate1.opsForList().rightPushAll(key, value);
         return true;
     }
 
     @Override
     public boolean lSet(String key, List<Object> value, long time) {
-        redisTemplate.opsForList().rightPushAll(key, value);
+        redisTemplate1.opsForList().rightPushAll(key, value);
         if (time > 0) {
             expire(key, time);
         }
@@ -238,7 +237,7 @@ public class DefaultRedis extends AbsRedisClientService {
 
     @Override
     public boolean lUpdateIndex(String key, long index, Object value) {
-        redisTemplate.opsForList().set(key, index, value);
+        redisTemplate1.opsForList().set(key, index, value);
         return true;
     }
 }
